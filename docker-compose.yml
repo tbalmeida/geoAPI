@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  geoapi:
+    image: ${DOCKER_REGISTRY-}geoapi
+    build:
+      context: .
+      dockerfile: geoAPI/Dockerfile
+
+  db:
+    image: postgis/postgis
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: notapassword
+      POSTGRES_USER: test_api
+      POSTGRES_DB: test_db
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
