@@ -1,15 +1,19 @@
-version: '3.4'
+version: '3.8'
 
 services:
   geoapi:
     image: ${DOCKER_REGISTRY-}geoapi
+    container_name: geoAPI
     build:
       context: .
       dockerfile: geoAPI/Dockerfile
+    depends_on:
+      - geoAPI.db
 
-  db:
+  geoAPI.db:
     image: postgis/postgis
-    restart: always
+    container_name: geoAPI.db
+    restart: on-failure
     environment:
       POSTGRES_PASSWORD: notapassword
       POSTGRES_USER: test_api
