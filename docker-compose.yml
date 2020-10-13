@@ -9,7 +9,8 @@ services:
       dockerfile: geoAPI/Dockerfile
     depends_on:
       - geoAPI.db
-
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=geoAPI.db;Database=test_db;User Id=test_api;password=notapassword
   geoAPI.db:
     image: postgis/postgis
     container_name: geoAPI.db

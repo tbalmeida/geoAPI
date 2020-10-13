@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using geoAPI.App;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using geoAPI.App.Repositories.Interfaces;
+using geoAPI.App.Repositories;
 
 namespace geoAPI
 {
@@ -22,10 +27,20 @@ namespace geoAPI
 
     public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
     {
-      services.AddControllers();
+        // Set up the database
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+            b =>
+            {
+                b.MigrationsAssembly("geoAPI.App");
+            })
+        );
+        services.AddControllers();
+
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,12 +55,29 @@ namespace geoAPI
 
       app.UseRouting();
 
+      // Initialize the database
+      UpdateDatabase(app);
+
       app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllers();
       });
+    }
+
+    // Update the database to the latest migration
+    private static void UpdateDatabase(IApplicationBuilder app)
+    {
+        using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+        {
+            using (var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>())
+            {
+                    context.Database.Migrate();
+            }
+        }
     }
   }
 }
