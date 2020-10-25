@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "geoAPI", "geoAPI\geoAPI.csp
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{43B128C4-BB3F-480C-8813-00926ED4BBDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geoAPI.Models", "geoAPI.Models\geoAPI.Models.csproj", "{96DC7CC8-2B60-4B19-9470-F12BF7ACFA06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "geoAPI.Models", "geoAPI.Models\geoAPI.Models.csproj", "{96DC7CC8-2B60-4B19-9470-F12BF7ACFA06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geoAPI.App", "geoAPI.App\geoAPI.App.csproj", "{4F5162A1-17F6-4E11-AC01-C63BA7D1C443}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "geoAPI.App", "geoAPI.App\geoAPI.App.csproj", "{4F5162A1-17F6-4E11-AC01-C63BA7D1C443}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaunchpadSept2020.Auth", "LaunchpadSept2020.Auth\LaunchpadSept2020.Auth.csproj", "{AB2DD6DD-CA28-4B23-9837-B748A86FA9AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4F5162A1-17F6-4E11-AC01-C63BA7D1C443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F5162A1-17F6-4E11-AC01-C63BA7D1C443}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F5162A1-17F6-4E11-AC01-C63BA7D1C443}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB2DD6DD-CA28-4B23-9837-B748A86FA9AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB2DD6DD-CA28-4B23-9837-B748A86FA9AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB2DD6DD-CA28-4B23-9837-B748A86FA9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB2DD6DD-CA28-4B23-9837-B748A86FA9AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

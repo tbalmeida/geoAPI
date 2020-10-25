@@ -7,10 +7,28 @@ services:
     build:
       context: .
       dockerfile: geoAPI/Dockerfile
-    depends_on:
-      - geoAPI.db
+    ports:
+      - "25000:80"
+      - "25001:443"
     environment:
       - ConnectionStrings__DefaultConnection=Server=geoAPI.db;Database=test_db;User Id=test_api;password=notapassword
+    depends_on:
+      - geoAPI.db
+
+  launchpadsept2020.auth:
+    image: ${DOCKER_REGISTRY-}launchpadsept2020auth
+    container_name: "launchpadsept2020.auth"
+    build:
+      context: .
+      dockerfile: LaunchpadSept2020.Auth/Dockerfile
+    ports:
+      - "24000:80"
+      - "24001:443"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=geoAPI.db;Database=test_db;User Id=test_api;password=notapassword
+    depends_on:
+      - geoAPI.db
+
   geoAPI.db:
     image: postgis/postgis
     container_name: geoAPI.db
