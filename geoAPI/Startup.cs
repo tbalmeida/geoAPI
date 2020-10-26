@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using geoAPI.App.Repositories.Interfaces;
 using geoAPI.App.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using geoAPI.Models.Entities;
 
 namespace geoAPI
 {
@@ -31,6 +33,18 @@ namespace geoAPI
                 b.MigrationsAssembly("geoAPI.App");
             })
         );
+
+        // Add IDentity using our custom User Model
+        services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddIdentityServerAuthentication(options =>
