@@ -9,6 +9,17 @@ namespace LaunchpadSept2020.Auth
 {
     public static class Config
     {
+        public static IEnumerable<ApiResource> ApiResources =>
+            new List<ApiResource>
+            {
+                new ApiResource
+                {
+                    Name = "geoapi",
+                    DisplayName = "geoAPI",
+                    Scopes = { "geoapi.scope" }
+                }
+            };
+        
         public static IEnumerable<ApiScope> ApiScopes =>
             new List<ApiScope>
             {

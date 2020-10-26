@@ -12,6 +12,7 @@ services:
       - "25001:443"
     environment:
       - ConnectionStrings__DefaultConnection=Server=geoAPI.db;Database=test_db;User Id=test_api;password=notapassword
+      - Identity__Authority=http://launchpadsept2020.auth
     depends_on:
       - geoAPI.db
 
@@ -26,6 +27,7 @@ services:
       - "24001:443"
     environment:
       - ConnectionStrings__DefaultConnection=Server=geoAPI.db;Database=test_db;User Id=test_api;password=notapassword
+      - Identity__Authority=http://launchpadsept2020.auth
     depends_on:
       - geoAPI.db
 

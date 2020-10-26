@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 using geoAPI.App;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using geoAPI.App.Repositories.Interfaces;
 using geoAPI.App.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace geoAPI
 {
@@ -38,8 +31,19 @@ namespace geoAPI
                 b.MigrationsAssembly("geoAPI.App");
             })
         );
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddIdentityServerAuthentication(options =>
+            {
+                options.Authority = Configuration.GetSection("Identity").GetValue<string>("Authority");
+
+                options.ApiName = "geoapi";
+                options.RequireHttpsMetadata = false;
+            });
+
         services.AddControllers();
 
+        // Add repositories to dependency injection
         services.AddScoped<ICompanyRepository, CompanyRepository>();
     }
 
@@ -58,6 +62,7 @@ namespace geoAPI
       // Initialize the database
       UpdateDatabase(app);
 
+      app.UseAuthentication();
       app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>

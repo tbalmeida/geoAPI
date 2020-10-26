@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-
+using geoAPI.App;
+using geoAPI.Models.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -13,15 +12,42 @@ namespace LaunchpadSept2020.Auth
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()
+            services.AddDbContext<ApplicationDbContext>(builder =>
+                builder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+                    builder =>
+                    {
+                        builder.MigrationsAssembly("geoapi.app");
+                    }));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            var identity = services.AddIdentityServer()
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = builder => builder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+                    npgSqlOptions =>
+                    {
+                        npgSqlOptions.MigrationsAssembly("geoapi.app");
+                    });
+                })
                 .AddDeveloperSigningCredential()
                 .AddInMemoryApiScopes(Config.ApiScopes)
+                //.AddTestUsers(Config.Users)
                 .AddInMemoryClients(Config.Clients)
-                .AddTestUsers(Config.Users);
+                .AddAspNetIdentity<User>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
