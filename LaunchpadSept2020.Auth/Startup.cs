@@ -34,7 +34,10 @@ namespace LaunchpadSept2020.Auth
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var identity = services.AddIdentityServer()
+            var identity = services.AddIdentityServer(option =>
+            {
+                option.IssuerUri = Configuration.GetSection("Identity").GetValue<string>("Authority");
+            })
                 .AddOperationalStore(options =>
                 {
                     options.ConfigureDbContext = builder => builder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
@@ -44,8 +47,8 @@ namespace LaunchpadSept2020.Auth
                     });
                 })
                 .AddDeveloperSigningCredential()
+                .AddInMemoryApiResources(Config.ApiResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                //.AddTestUsers(Config.Users)
                 .AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<User>();
         }

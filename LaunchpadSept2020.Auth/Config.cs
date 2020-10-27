@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System;
 using System.Collections.Generic;
@@ -38,26 +39,9 @@ namespace LaunchpadSept2020.Auth
                     {
                         new Secret("EcBSm40SIOmHthHZZTSfWyZjAC2Y7vws".Sha256())
                     },
-                    AllowedScopes = {"geoapi.scope"}
+                    AllowedScopes = {"geoapi.scope", IdentityServerConstants.StandardScopes.OpenId}
                 }
             };
 
-        public static List<TestUser> Users =>
-            new List<TestUser>
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = "alice",
-                    Password = "password"
-                },
-
-                new TestUser
-                {
-                    SubjectId = "2",
-                    Username = "bob",
-                    Password = "password"
-                }
-            };
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using geoAPI.App.Repositories.Interfaces;
 using geoAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace geoAPI.Controllers
@@ -37,6 +38,7 @@ namespace geoAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult<List<CompanyVM>>> GetAll()
         {
             try
@@ -51,5 +53,4 @@ namespace geoAPI.Controllers
             }
         }
     }
-
 }
