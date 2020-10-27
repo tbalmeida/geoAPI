@@ -4,8 +4,8 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>43b128c4-bb3f-480c-8813-00926ed4bbde</ProjectGuid>
-    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/weatherforecast</DockerServiceUrl>
+    <DockerLaunchAction>None</DockerLaunchAction>
+    <DockerServiceUrl>{Scheme}://localhost:2400/.well-known/openid-configuration</DockerServiceUrl>
     <DockerServiceName>geoapi</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

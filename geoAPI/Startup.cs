@@ -59,6 +59,7 @@ namespace geoAPI
 
         // Add repositories to dependency injection
         services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

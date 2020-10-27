@@ -11,6 +11,7 @@ namespace geoAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
 
     public class CompanyController : ControllerBase
     {
@@ -38,7 +39,6 @@ namespace geoAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<ActionResult<List<CompanyVM>>> GetAll()
         {
             try
